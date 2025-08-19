@@ -1069,6 +1069,26 @@ require('lazy').setup({
         'brianhuster/live-preview.nvim',
     },
 
+    {
+        'fatih/vim-go',
+        ft = 'go',
+        build = ':GoInstallBinaries',
+        config = function()
+            local opts = { buffer = true, silent = true }
+
+            -- Key mappings dengan description
+            vim.keymap.set('n', '<leader>gj', ':GoAddTags json<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add JSON' }))
+            vim.keymap.set('n', '<leader>gy', ':GoAddTags yaml<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add YAML' }))
+            vim.keymap.set('n', '<leader>gr', ':GoRemoveTags<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Remove' }))
+
+            -- Which-key descriptions
+            local wk = require 'which-key'
+            wk.add {
+                { '<leader>g', group = 'Go Tags', buffer = vim.api.nvim_get_current_buf() },
+            }
+        end,
+    },
+
     -- init.lua. If you want these files, they are in the repository, so you can just download them and
     -- place them in the correct locations.
 
