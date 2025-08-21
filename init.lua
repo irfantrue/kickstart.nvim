@@ -1074,9 +1074,38 @@ require('lazy').setup({
         ft = 'go',
         build = ':GoInstallBinaries',
         config = function()
-            local opts = { buffer = true, silent = true }
+            -- === DISABLE LSP/GOPLS RELATED FEATURES ===
+            -- Hindari konflik dengan gopls yang sudah diatur via LSP client
+            vim.g.go_gopls_enabled = 0 -- Disable gopls integration
+            vim.g.go_code_completion_enabled = 0 -- Disable completion (handled by LSP)
+            vim.g.go_def_mapping_enabled = 0 -- Disable go-to-definition mapping (handled by LSP)
+            vim.g.go_doc_keywordprg_enabled = 0 -- Disable documentation lookup (handled by LSP)
+            vim.g.go_auto_type_info = 0 -- Disable type info display (handled by LSP)
+            vim.g.go_auto_sameids = 0 -- Disable same ID highlighting (handled by LSP)
 
-            -- Key mappings dengan description
+            -- === DISABLE AUTO-FORMATTING ===
+            -- Biarkan LSP/formatter lain yang handle formatting
+            vim.g.go_fmt_autosave = 0 -- Disable gofmt on save
+            vim.g.go_imports_autosave = 0 -- Disable goimports on save
+            vim.g.go_mod_fmt_autosave = 0 -- Disable go.mod formatting
+
+            -- === DISABLE OTHER CONFLICTING FEATURES ===
+            vim.g.go_list_type = '' -- Disable quickfix/location list
+            vim.g.go_echo_go_info = 0 -- Disable echo of go info
+            vim.g.go_guru_enabled = 0 -- Disable guru (superseded by gopls)
+            vim.g.go_textobj_enabled = 0 -- Disable text objects (optional, bisa diaktifkan jika dibutuhkan)
+
+            -- === KEEP USEFUL NON-CONFLICTING FEATURES ===
+            -- Fitur ini tidak konflik dengan gopls dan tetap berguna:
+            vim.g.go_highlight_types = 1 -- Syntax highlighting for types
+            vim.g.go_highlight_fields = 1 -- Syntax highlighting for fields
+            vim.g.go_highlight_functions = 1 -- Syntax highlighting for functions
+            vim.g.go_highlight_function_calls = 1 -- Syntax highlighting for function calls
+            vim.g.go_highlight_operators = 1 -- Syntax highlighting for operators
+            vim.g.go_template_autocreate = 0 -- Disable template creation (optional)
+
+            -- === TAGS FUNCTIONALITY (MAIN FEATURE WE WANT) ===
+            local opts = { buffer = true, silent = true }
             vim.keymap.set('n', '<leader>gj', ':GoAddTags json<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add JSON' }))
             vim.keymap.set('n', '<leader>gy', ':GoAddTags yaml<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add YAML' }))
             vim.keymap.set('n', '<leader>gr', ':GoRemoveTags<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Remove' }))
