@@ -131,6 +131,9 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
 
+-- Set visual guide di kolom 80
+vim.opt.colorcolumn = '80'
+
 -- Decrease update time
 vim.o.updatetime = 250
 
@@ -1109,6 +1112,7 @@ require('lazy').setup({
             vim.keymap.set('n', '<leader>gj', ':GoAddTags json<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add JSON' }))
             vim.keymap.set('n', '<leader>gy', ':GoAddTags yaml<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add YAML' }))
             vim.keymap.set('n', '<leader>gr', ':GoRemoveTags<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Remove' }))
+            vim.keymap.set('n', '<leader>ge', ':GoIfErr<CR>', vim.tbl_extend('force', opts, { desc = 'Go If Err' }))
 
             -- Which-key descriptions
             local wk = require 'which-key'
