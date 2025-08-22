@@ -751,6 +751,7 @@ require('lazy').setup({
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
                 'biome',
+                'graphql',
                 'ts_ls',
                 'gomodifytags',
                 'gopls',
@@ -821,6 +822,7 @@ require('lazy').setup({
                 -- JSON files with Biome
                 json = { 'biome-check' },
                 jsonc = { 'biome-check' },
+                graphql = { 'biome-check' },
             },
         },
     },
