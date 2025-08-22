@@ -814,13 +814,13 @@ require('lazy').setup({
                 -- You can use 'stop_after_first' to run the first available formatter from the list
                 -- javascript = { "prettierd", "prettier", stop_after_first = true },
                 -- JavaScript/TypeScript files with Biome
-                javascript = { 'biome-organize-imports', 'biome' },
-                typescript = { 'biome-organize-imports', 'biome' },
-                javascriptreact = { 'biome-organize-imports', 'biome' },
-                typescriptreact = { 'biome-organize-imports', 'biome' },
+                javascript = { 'biome-check' },
+                typescript = { 'biome-check' },
+                javascriptreact = { 'biome-check' },
+                typescriptreact = { 'biome-check' },
                 -- JSON files with Biome
-                json = { 'biome' },
-                jsonc = { 'biome' },
+                json = { 'biome-check' },
+                jsonc = { 'biome-check' },
             },
         },
     },
