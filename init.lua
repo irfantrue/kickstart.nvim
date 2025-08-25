@@ -1137,6 +1137,7 @@ require('lazy').setup({
                     map('n', '<leader>gty', ':GoAddTags yaml<CR>', { desc = 'Add YAML tags' })
                     map('n', '<leader>gtx', ':GoAddTags xml<CR>', { desc = 'Add XML tags' })
                     map('n', '<leader>gtd', ':GoAddTags db<CR>', { desc = 'Add DB tags' })
+                    map('n', '<leader>gtm', ':GoAddTags mapstructure<CR>', { desc = 'Add mapstructure tags' })
                     map('n', '<leader>gtr', ':GoRemoveTags<CR>', { desc = 'Remove all tags' })
 
                     -- Code generation
