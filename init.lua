@@ -752,6 +752,7 @@ require('lazy').setup({
                 'stylua', -- Used to format Lua code
                 'biome',
                 'graphql',
+                'yamlls',
                 'ts_ls',
                 'gomodifytags',
                 'gopls',
@@ -1031,6 +1032,9 @@ require('lazy').setup({
                 'vimdoc',
                 'typescript',
                 'javascript',
+                'json',
+                'tsx',
+                'yaml',
                 'rust',
                 'zig',
                 'go',
@@ -1082,39 +1086,41 @@ require('lazy').setup({
     {
         'fatih/vim-go',
         ft = 'go',
-        build = '<cmd>GoInstallBinaries',
+        event = { 'BufReadPre', 'BufNewFile' },
+        build = ':GoInstallBinaries',
         config = function()
-            -- === DISABLE LSP/GOPLS RELATED FEATURES ===
-            -- Hindari konflik dengan gopls yang sudah diatur via LSP client
-            -- vim.g.go_gopls_enabled = 0 -- Disable gopls integration
-            -- vim.g.go_code_completion_enabled = 0 -- Disable completion (handled by LSP)
-            -- vim.g.go_def_mapping_enabled = 0 -- Disable go-to-definition mapping (handled by LSP)
+            -- ========================================
+            -- DISABLE LSP/GOPLS CONFLICTING FEATURES
+            -- ========================================
+            -- Avoid conflicts with gopls managed via LSP client
             vim.g.go_doc_keywordprg_enabled = 0 -- Disable documentation lookup (handled by LSP)
-            -- vim.g.go_auto_type_info = 0 -- Disable type info display (handled by LSP)
-            -- vim.g.go_auto_sameids = 0 -- Disable same ID highlighting (handled by LSP)
 
-            -- === DISABLE AUTO-FORMATTING ===
-            -- Biarkan LSP/formatter lain yang handle formatting
-            vim.g.go_fmt_autosave = 0 -- Disable gofmt on save
-            vim.g.go_imports_autosave = 0 -- Disable goimports on save
-            vim.g.go_mod_fmt_autosave = 0 -- Disable go.mod formatting
+            -- ========================================
+            -- DISABLE AUTO-FORMATTING
+            -- ========================================
+            -- Let LSP/other formatters handle formatting
+            vim.g.go_fmt_autosave = 1 -- Disable gofmt on save
+            vim.g.go_imports_autosave = 1 -- Disable goimports on save
+            vim.g.go_mod_fmt_autosave = 1 -- Disable go.mod formatting
 
-            -- === DISABLE OTHER CONFLICTING FEATURES ===
-            -- vim.g.go_list_type = '' -- Disable quickfix/location list
-            -- vim.g.go_echo_go_info = 0 -- Disable echo of go info
-            -- vim.g.go_guru_enabled = 0 -- Disable guru (superseded by gopls)
-            -- vim.g.go_textobj_enabled = 0 -- Disable text objects (optional, bisa diaktifkan jika dibutuhkan)
-
-            -- === KEEP USEFUL NON-CONFLICTING FEATURES ===
-            -- Fitur ini tidak konflik dengan gopls dan tetap berguna:
+            -- ========================================
+            -- ENABLE SYNTAX HIGHLIGHTING
+            -- ========================================
+            -- These features don't conflict with gopls and are useful
             vim.g.go_highlight_types = 1 -- Syntax highlighting for types
             vim.g.go_highlight_fields = 1 -- Syntax highlighting for fields
             vim.g.go_highlight_functions = 1 -- Syntax highlighting for functions
             vim.g.go_highlight_function_calls = 1 -- Syntax highlighting for function calls
             vim.g.go_highlight_operators = 1 -- Syntax highlighting for operators
-            vim.g.go_template_autocreate = 0 -- Disable template creation (optional)
 
-            -- === TAGS FUNCTIONALITY (MAIN FEATURE WE WANT) ===
+            -- ========================================
+            -- DISABLE TEMPLATE CREATION
+            -- ========================================
+            vim.g.go_template_autocreate = 0 -- Disable automatic template creation
+
+            -- ========================================
+            -- HELPER FUNCTION FOR KEYMAPS
+            -- ========================================
             local function map(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = true
@@ -1122,30 +1128,39 @@ require('lazy').setup({
                 vim.keymap.set(mode, lhs, rhs, opts)
             end
 
-            -- Tags management
-            map('n', '<leader>gtj', ':GoAddTags json<CR>', { desc = 'Add JSON tags' })
-            map('n', '<leader>gty', ':GoAddTags yaml<CR>', { desc = 'Add YAML tags' })
-            map('n', '<leader>gtx', ':GoAddTags xml<CR>', { desc = 'Add XML tags' })
-            map('n', '<leader>gtd', ':GoAddTags db<CR>', { desc = 'Add DB tags' })
-            map('n', '<leader>gtr', ':GoRemoveTags<CR>', { desc = 'Remove all tags' })
+            -- Autocmd untuk setup keymaps khusus Go files
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = 'go',
+                callback = function()
+                    -- Tags management
+                    map('n', '<leader>gtj', ':GoAddTags json<CR>', { desc = 'Add JSON tags' })
+                    map('n', '<leader>gty', ':GoAddTags yaml<CR>', { desc = 'Add YAML tags' })
+                    map('n', '<leader>gtx', ':GoAddTags xml<CR>', { desc = 'Add XML tags' })
+                    map('n', '<leader>gtd', ':GoAddTags db<CR>', { desc = 'Add DB tags' })
+                    map('n', '<leader>gtr', ':GoRemoveTags<CR>', { desc = 'Remove all tags' })
 
-            -- Code generation
-            map('n', '<leader>gie', ':GoIfErr<CR>', { desc = 'Generate if err' })
-            map('n', '<leader>gfs', ':GoFillStruct<CR>', { desc = 'Fill struct' })
+                    -- Code generation
+                    map('n', '<leader>gie', ':GoIfErr<CR>', { desc = 'Generate if err' })
+                    map('n', '<leader>gfs', ':GoFillStruct<CR>', { desc = 'Fill struct' })
 
-            -- Which-key integration
-            local wk = require 'which-key'
-            wk.add {
-                { '<leader>gt', group = 'Go Tags', buffer = true },
-                { '<leader>gi', group = 'Go Generate', buffer = true },
-                { '<leader>g', group = 'Go', buffer = true },
-            }
+                    -- Which-key setup
+                    if pcall(require, 'which-key') then
+                        local wk = require 'which-key'
+                        wk.add {
+                            { '<leader>g', group = 'Go', buffer = true },
+                            { '<leader>gt', group = 'Go Tags', buffer = true },
+                            { '<leader>gi', group = 'Go Generate', buffer = true },
+                        }
+                    end
+                end,
+            })
         end,
     },
 
     {
         'edolphin-ydf/goimpl.nvim',
         ft = 'go',
+        event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-lua/popup.nvim' },
@@ -1155,23 +1170,27 @@ require('lazy').setup({
         config = function()
             require('telescope').load_extension 'goimpl'
 
-            -- Keymap untuk goimpl
-            vim.keymap.set(
-                'n',
-                '<leader>gii', -- Ubah dari gi ke gii untuk avoid conflict
-                [[<cmd>lua require'telescope'.extensions.goimpl.goimpl{}<CR>]],
-                {
-                    buffer = true,
-                    silent = true,
-                    desc = 'Implement interface',
-                }
-            )
+            -- Setup keymaps dalam autocmd
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = 'go',
+                callback = function()
+                    vim.keymap.set('n', '<leader>gii', function()
+                        require('telescope').extensions.goimpl.goimpl()
+                    end, {
+                        buffer = true,
+                        silent = true,
+                        desc = 'Implement interface',
+                    })
 
-            -- Which-key integration
-            local wk = require 'which-key'
-            wk.add {
-                { '<leader>gii', desc = 'Implement interface', buffer = true },
-            }
+                    -- Which-key integration
+                    if pcall(require, 'which-key') then
+                        local wk = require 'which-key'
+                        wk.add {
+                            { '<leader>gii', desc = 'Implement interface', buffer = true },
+                        }
+                    end
+                end,
+            })
         end,
     },
 
