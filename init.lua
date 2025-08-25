@@ -1082,16 +1082,16 @@ require('lazy').setup({
     {
         'fatih/vim-go',
         ft = 'go',
-        build = ':GoInstallBinaries',
+        build = '<cmd>GoInstallBinaries',
         config = function()
             -- === DISABLE LSP/GOPLS RELATED FEATURES ===
             -- Hindari konflik dengan gopls yang sudah diatur via LSP client
-            vim.g.go_gopls_enabled = 0 -- Disable gopls integration
-            vim.g.go_code_completion_enabled = 0 -- Disable completion (handled by LSP)
-            vim.g.go_def_mapping_enabled = 0 -- Disable go-to-definition mapping (handled by LSP)
+            -- vim.g.go_gopls_enabled = 0 -- Disable gopls integration
+            -- vim.g.go_code_completion_enabled = 0 -- Disable completion (handled by LSP)
+            -- vim.g.go_def_mapping_enabled = 0 -- Disable go-to-definition mapping (handled by LSP)
             vim.g.go_doc_keywordprg_enabled = 0 -- Disable documentation lookup (handled by LSP)
-            vim.g.go_auto_type_info = 0 -- Disable type info display (handled by LSP)
-            vim.g.go_auto_sameids = 0 -- Disable same ID highlighting (handled by LSP)
+            -- vim.g.go_auto_type_info = 0 -- Disable type info display (handled by LSP)
+            -- vim.g.go_auto_sameids = 0 -- Disable same ID highlighting (handled by LSP)
 
             -- === DISABLE AUTO-FORMATTING ===
             -- Biarkan LSP/formatter lain yang handle formatting
@@ -1100,10 +1100,10 @@ require('lazy').setup({
             vim.g.go_mod_fmt_autosave = 0 -- Disable go.mod formatting
 
             -- === DISABLE OTHER CONFLICTING FEATURES ===
-            vim.g.go_list_type = '' -- Disable quickfix/location list
-            vim.g.go_echo_go_info = 0 -- Disable echo of go info
-            vim.g.go_guru_enabled = 0 -- Disable guru (superseded by gopls)
-            vim.g.go_textobj_enabled = 0 -- Disable text objects (optional, bisa diaktifkan jika dibutuhkan)
+            -- vim.g.go_list_type = '' -- Disable quickfix/location list
+            -- vim.g.go_echo_go_info = 0 -- Disable echo of go info
+            -- vim.g.go_guru_enabled = 0 -- Disable guru (superseded by gopls)
+            -- vim.g.go_textobj_enabled = 0 -- Disable text objects (optional, bisa diaktifkan jika dibutuhkan)
 
             -- === KEEP USEFUL NON-CONFLICTING FEATURES ===
             -- Fitur ini tidak konflik dengan gopls dan tetap berguna:
@@ -1115,16 +1115,62 @@ require('lazy').setup({
             vim.g.go_template_autocreate = 0 -- Disable template creation (optional)
 
             -- === TAGS FUNCTIONALITY (MAIN FEATURE WE WANT) ===
-            local opts = { buffer = true, silent = true }
-            vim.keymap.set('n', '<leader>gj', ':GoAddTags json<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add JSON' }))
-            vim.keymap.set('n', '<leader>gy', ':GoAddTags yaml<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Add YAML' }))
-            vim.keymap.set('n', '<leader>gr', ':GoRemoveTags<CR>', vim.tbl_extend('force', opts, { desc = 'Go Tags: Remove' }))
-            vim.keymap.set('n', '<leader>ge', ':GoIfErr<CR>', vim.tbl_extend('force', opts, { desc = 'Go If Err' }))
+            local function map(mode, lhs, rhs, opts)
+                opts = opts or {}
+                opts.buffer = true
+                opts.silent = true
+                vim.keymap.set(mode, lhs, rhs, opts)
+            end
 
-            -- Which-key descriptions
+            -- Tags management
+            map('n', '<leader>gtj', ':GoAddTags json<CR>', { desc = 'Add JSON tags' })
+            map('n', '<leader>gty', ':GoAddTags yaml<CR>', { desc = 'Add YAML tags' })
+            map('n', '<leader>gtx', ':GoAddTags xml<CR>', { desc = 'Add XML tags' })
+            map('n', '<leader>gtd', ':GoAddTags db<CR>', { desc = 'Add DB tags' })
+            map('n', '<leader>gtr', ':GoRemoveTags<CR>', { desc = 'Remove all tags' })
+
+            -- Code generation
+            map('n', '<leader>gie', ':GoIfErr<CR>', { desc = 'Generate if err' })
+            map('n', '<leader>gfs', ':GoFillStruct<CR>', { desc = 'Fill struct' })
+
+            -- Which-key integration
             local wk = require 'which-key'
             wk.add {
-                { '<leader>g', group = 'Go Tags', buffer = vim.api.nvim_get_current_buf() },
+                { '<leader>gt', group = 'Go Tags', buffer = true },
+                { '<leader>gi', group = 'Go Generate', buffer = true },
+                { '<leader>g', group = 'Go', buffer = true },
+            }
+        end,
+    },
+
+    {
+        'edolphin-ydf/goimpl.nvim',
+        ft = 'go',
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-lua/popup.nvim' },
+            { 'nvim-telescope/telescope.nvim' },
+            { 'nvim-treesitter/nvim-treesitter' },
+        },
+        config = function()
+            require('telescope').load_extension 'goimpl'
+
+            -- Keymap untuk goimpl
+            vim.keymap.set(
+                'n',
+                '<leader>gii', -- Ubah dari gi ke gii untuk avoid conflict
+                [[<cmd>lua require'telescope'.extensions.goimpl.goimpl{}<CR>]],
+                {
+                    buffer = true,
+                    silent = true,
+                    desc = 'Implement interface',
+                }
+            )
+
+            -- Which-key integration
+            local wk = require 'which-key'
+            wk.add {
+                { '<leader>gii', desc = 'Implement interface', buffer = true },
             }
         end,
     },
