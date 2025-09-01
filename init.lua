@@ -1119,6 +1119,47 @@ require('lazy').setup({
     },
 
     {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require('lualine').setup {
+                options = {
+                    theme = 'auto',
+                    component_separators = { left = '│', right = '│' },
+                    section_separators = { left = '', right = '' },
+                },
+                sections = {
+                    lualine_a = {
+                        {
+                            'mode',
+                            fmt = function(str)
+                                -- Mapping mode names ke single character
+                                local mode_map = {
+                                    ['NORMAL'] = 'N',
+                                    ['INSERT'] = 'I',
+                                    ['VISUAL'] = 'V',
+                                    ['V-LINE'] = 'VL',
+                                    ['V-BLOCK'] = 'VB',
+                                    ['COMMAND'] = 'C',
+                                    ['REPLACE'] = 'R',
+                                    ['SELECT'] = 'S',
+                                    ['TERMINAL'] = 'T',
+                                }
+                                return mode_map[str] or str:sub(1, 1) -- fallback ke karakter pertama
+                            end,
+                        },
+                    },
+                    lualine_b = { 'branch', 'diff' },
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'filetype' },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' },
+                },
+            }
+        end,
+    },
+
+    {
         'fatih/vim-go',
         ft = 'go',
         event = { 'BufReadPre', 'BufNewFile' },
