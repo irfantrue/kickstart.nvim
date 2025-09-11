@@ -40,6 +40,35 @@ return {
                 expander_expanded = '',
                 expander_highlight = 'NeoTreeExpander',
             },
+            diagnostics = {
+                symbols = {
+                    hint = '', -- or your preferred icon
+                    info = '',
+                    warn = '',
+                    error = '',
+                },
+                highlights = {
+                    hint = 'DiagnosticSignHint',
+                    info = 'DiagnosticSignInfo',
+                    warn = 'DiagnosticSignWarn',
+                    error = 'DiagnosticSignError',
+                },
+            },
+            git_status = {
+                symbols = {
+                    -- Change type
+                    added = '✚', -- or "✚"
+                    modified = '~', -- or ""
+                    deleted = '✖', -- this can only be used in the git_status source
+                    renamed = '󰁕', -- this can only be used in the git_status source
+                    -- Status type
+                    untracked = '',
+                    ignored = '',
+                    unstaged = '󰄱',
+                    staged = '',
+                    conflict = '',
+                },
+            },
         },
         filesystem = {
             filtered_items = {

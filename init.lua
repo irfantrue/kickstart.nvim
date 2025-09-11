@@ -356,7 +356,7 @@ require('lazy').setup({
                 { '<leader>s', group = '[S]earch' },
                 { '<leader>t', group = '[T]oggle' },
                 { '<leader>gh', group = '[G]it [H]unk', mode = { 'n' } },
-                { '<leader>n', group = '[N]eotree', mode = { 'n' } },
+                { '<leader>n', group = '[N]vimtree', mode = { 'n' } },
             },
         },
     },
@@ -1106,7 +1106,7 @@ require('lazy').setup({
     -- require 'kickstart.plugins.indent_line',
     -- require 'kickstart.plugins.lint',
     require 'kickstart.plugins.autopairs',
-    require 'kickstart.plugins.neo-tree',
+    -- require 'kickstart.plugins.neo-tree',
     -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
