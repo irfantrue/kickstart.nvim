@@ -825,6 +825,25 @@ require('lazy').setup({
                 json = { 'biome-check' },
                 jsonc = { 'biome-check' },
                 graphql = { 'biome-check' },
+                sql = { 'pg_format_custom' },
+            },
+            formatters = {
+                pg_format_custom = {
+                    command = 'pg_format',
+                    args = {
+                        '--keyword-case',
+                        '2',
+                        '--type-case',
+                        '1',
+                        '--function-case',
+                        '1',
+                        '--spaces',
+                        '4',
+                        '--no-extra-line',
+                        '--comma-break',
+                    },
+                    stdin = true,
+                },
             },
         },
     },
@@ -887,7 +906,7 @@ require('lazy').setup({
                 -- <c-k>: Toggle signature help
                 --
                 -- See :h blink-cmp-config-keymap for defining your own keymap
-                preset = 'enter',
+                preset = 'default',
 
                 -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
                 --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -1048,6 +1067,7 @@ require('lazy').setup({
             --  Check out: https://github.com/echasnovski/mini.nvim
         end,
     },
+
     { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
