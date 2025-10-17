@@ -7,14 +7,14 @@ return {
         require('config.harpoon').setup()
     end,
     keys = {
-        { '<leader>h' },
-        { '<leader>ha' },
-        { '<leader>hh' },
-        { '<leader>hr' },
-        { '<leader>hc' },
-        { '<leader>h1' },
-        { '<leader>h2' },
-        { '<leader>h3' },
-        { '<leader>h4' },
+        { '<leader>gh' },
+        { '<leader>ga' },
+        { '<leader>gh' },
+        { '<leader>gr' },
+        { '<leader>gc' },
+        { '<leader>g1' },
+        { '<leader>g2' },
+        { '<leader>g3' },
+        { '<leader>g4' },
     },
 }

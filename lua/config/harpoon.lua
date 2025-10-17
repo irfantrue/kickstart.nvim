@@ -46,33 +46,33 @@ local function setup_keymaps()
     local ok, wk = pcall(require, 'which-key')
     if ok then
         wk.add {
-            { '<leader>h', group = '[H]arpoon' },
+            { '<leader>g', group = '[G]o Harpoon' },
         }
     end
 
     -- File management keymaps
-    vim.keymap.set('n', '<leader>ha', function()
+    vim.keymap.set('n', '<leader>ga', function()
         harpoon:list():add()
     end, { desc = '[Add] current file' })
 
-    vim.keymap.set('n', '<leader>hh', function()
+    vim.keymap.set('n', '<leader>gh', function()
         create_telescope_picker(harpoon:list())
     end, { desc = 'Show file list' })
 
-    vim.keymap.set('n', '<leader>hr', function()
+    vim.keymap.set('n', '<leader>gr', function()
         harpoon:list():remove()
     end, { desc = '[R]emove' })
 
-    vim.keymap.set('n', '<leader>hc', function()
+    vim.keymap.set('n', '<leader>gc', function()
         harpoon:list():clear()
     end, { desc = '[C]lear' })
 
     -- Quick file navigation keymaps
     local quick_nav_keys = {
-        { key = '<leader>h1', index = 1, desc = 'Go to file [1]' },
-        { key = '<leader>h2', index = 2, desc = 'Go to file [2]' },
-        { key = '<leader>h3', index = 3, desc = 'Go to file [3]' },
-        { key = '<leader>h4', index = 4, desc = 'Go to file [4]' },
+        { key = '<leader>g1', index = 1, desc = 'Go to file [1]' },
+        { key = '<leader>g2', index = 2, desc = 'Go to file [2]' },
+        { key = '<leader>g3', index = 3, desc = 'Go to file [3]' },
+        { key = '<leader>g4', index = 4, desc = 'Go to file [4]' },
     }
 
     for _, mapping in ipairs(quick_nav_keys) do
