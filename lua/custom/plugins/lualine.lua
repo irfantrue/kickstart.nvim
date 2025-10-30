@@ -55,11 +55,15 @@ return {
                         end,
                     },
                 },
-                lualine_b = { 'branch', 'diff', 'diagnostics' },
+                lualine_b = {
+                    'branch',
+                    -- 'diff',
+                    'diagnostics',
+                },
                 lualine_c = { { 'filename', path = 4 } },
                 lualine_x = {
-                    'encoding',
-                    'filetype',
+                    -- 'encoding',
+                    -- 'filetype',
                     -- {
                     --     'lsp_status',
                     --     -- icon = '', -- f013
@@ -75,7 +79,7 @@ return {
                     --     ignore_lsp = {},
                     -- },
                 },
-                lualine_y = { 'progress' },
+                -- lualine_y = { 'progress' },
                 lualine_z = { 'location' },
             },
         }

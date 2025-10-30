@@ -29,9 +29,9 @@ return {
         vim.g.zenbones_italic_functions = false
 
         -- Optional: Use terminal colors (if you want it to match your terminal theme)
-        vim.g.zenbones_terminal_colors = true
+        vim.g.zenbones_terminal_colors = false
 
         -- Set the colorscheme
-        vim.cmd.colorscheme 'zenbones'
+        vim.cmd.colorscheme 'zenwritten'
     end,
 }
