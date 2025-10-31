@@ -56,9 +56,8 @@ return {
                     },
                 },
                 lualine_b = {
-                    'branch',
+                    -- 'branch',
                     -- 'diff',
-                    'diagnostics',
                 },
                 lualine_c = { { 'filename', path = 4 } },
                 lualine_x = {
@@ -79,7 +78,18 @@ return {
                     --     ignore_lsp = {},
                     -- },
                 },
-                -- lualine_y = { 'progress' },
+                lualine_y = {
+                    -- 'progress'
+                    {
+                        'diagnostics',
+                        symbols = {
+                            error = '•',
+                            warn = '•',
+                            info = '•',
+                            hint = '•',
+                        },
+                    },
+                },
                 lualine_z = { 'location' },
             },
         }
