@@ -759,6 +759,7 @@ require('lazy').setup({
                 'gopls',
                 'rust_analyzer',
                 'zls',
+                'pylsp',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

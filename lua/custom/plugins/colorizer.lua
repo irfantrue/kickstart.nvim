@@ -6,6 +6,7 @@ return {
             'javascript',
             'markdown',
             'toml',
+            'conf',
         }, { mode = 'background' })
     end,
 }
