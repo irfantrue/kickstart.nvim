@@ -25,7 +25,7 @@ return {
                 delay = 80,
             },
             indent = {
-                enable = true,
+                enable = false,
                 use_treesitter = false,
                 chars = {
                     '│',
