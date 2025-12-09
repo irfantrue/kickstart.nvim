@@ -760,6 +760,7 @@ require('lazy').setup({
                 'rust_analyzer',
                 'zls',
                 'pylsp',
+                'lemminx',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -827,6 +828,7 @@ require('lazy').setup({
                 jsonc = { 'biome-check' },
                 graphql = { 'biome-check' },
                 sql = { 'pg_format_custom' },
+                xml = { 'lemminx' },
             },
             formatters = {
                 pg_format_custom = {
