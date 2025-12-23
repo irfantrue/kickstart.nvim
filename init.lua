@@ -751,16 +751,16 @@ require('lazy').setup({
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
-                'biome',
-                'graphql',
-                'yamlls',
-                'ts_ls',
-                'gomodifytags',
-                'gopls',
-                'rust_analyzer',
-                'zls',
-                'pylsp',
-                'lemminx',
+                'biome', -- Biome TS/JS
+                'graphql', -- Graphql
+                'yamlls', -- Yaml
+                'ts_ls', -- TypeScript
+                'gomodifytags', -- Go helper
+                'gopls', -- Go
+                'rust_analyzer', -- Rust
+                'zls', -- Zig
+                'pylsp', -- Python
+                'lemminx', -- XML
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -829,6 +829,7 @@ require('lazy').setup({
                 graphql = { 'biome-check' },
                 sql = { 'pg_format_custom' },
                 xml = { 'lemminx' },
+                solidity = { 'prettier' },
             },
             formatters = {
                 pg_format_custom = {
@@ -846,6 +847,10 @@ require('lazy').setup({
                         '--comma-break',
                     },
                     stdin = true,
+                },
+                prettier = {
+                    command = 'bunx',
+                    args = { 'prettier', '--stdin-filepath', '$FILENAME' },
                 },
             },
         },
