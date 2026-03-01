@@ -614,10 +614,7 @@ require('lazy').setup({
             ---@type table<string, vim.lsp.Config>
             local servers = {
                 -- clangd = {},
-                gopls = {
-                    cmd = { 'gopls' },
-                    filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-                },
+                gopls = require 'config.lsp.gopls',
                 -- pyright = {},
                 -- rust_analyzer = {},
                 --
@@ -629,17 +626,7 @@ require('lazy').setup({
 
                 stylua = {}, -- Used to format Lua code
 
-                solidity = {
-                    cmd = { 'nomicfoundation-solidity-language-server', '--stdio' },
-                    filetypes = { 'solidity' },
-                    root_dir = require('lspconfig.util').root_pattern '.git',
-                    single_file_support = true,
-                    settings = {
-                        solidity = {
-                            validateOnSave = true,
-                        },
-                    },
-                },
+                solidity = require 'config.lsp.soliditys',
 
                 -- Special Lua Config, as recommended by neovim help docs
                 lua_ls = {
