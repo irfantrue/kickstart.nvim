@@ -11,6 +11,8 @@ return {
                 markdown = { 'markdownlint' },
             }
 
+            require('config.lint.solhint').setup(lint)
+
             -- To allow other plugins to add linters to require('lint').linters_by_ft,
             -- instead set linters_by_ft like this:
             -- lint.linters_by_ft = lint.linters_by_ft or {}

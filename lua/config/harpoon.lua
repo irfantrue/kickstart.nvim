@@ -1,84 +1,62 @@
--- config/harpoon.lua
 local M = {}
 
--- Notification with harpoon logo
-local function notify_harpoon(message, level)
-    level = level or vim.log.levels.INFO
-    vim.notify(message, level, {
-        title = 'Harpoon',
-    })
-end
+--- Show notification with Harpoon branding
+---@param message string
+---@param level vim.log.level|nil
+local function notify(message, level) vim.notify(message, level or vim.log.levels.INFO, { title = 'Harpoon' }) end
 
--- Telescope integration for harpoon file picker
-local function create_telescope_picker(harpoon_files)
-    local conf = require('telescope.config').values
+--- Create Telescope picker for harpooned files
+---@param harpoon_files HarpoonList
+local function show_file_picker(harpoon_files)
+    local items = harpoon_files.items
 
-    -- Extract file paths from harpoon items
-    local file_paths = {}
-    for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-    end
-
-    -- Show empty message if no files harpooned
-    if #file_paths == 0 then
-        notify_harpoon('No files harpooned yet!', vim.log.levels.WARN)
+    if #items == 0 then
+        notify('No files harpooned yet!', vim.log.levels.WARN)
         return
     end
 
-    -- Create and show telescope picker
+    local file_paths = vim.tbl_map(function(item) return item.value end, items)
+
     require('telescope.pickers')
         .new({}, {
             prompt_title = 'Harpoon Files',
-            finder = require('telescope.finders').new_table {
-                results = file_paths,
-            },
-            previewer = conf.file_previewer {},
-            sorter = conf.generic_sorter {},
+            finder = require('telescope.finders').new_table { results = file_paths },
+            previewer = require('telescope.config').values.file_previewer {},
+            sorter = require('telescope.config').values.generic_sorter {},
         })
         :find()
 end
 
--- Setup key mappings for harpoon
-local function setup_keymaps()
-    local harpoon = require 'harpoon'
-
-    -- Setup which-key group header
+local function register_which_key_group()
     local ok, wk = pcall(require, 'which-key')
-    if ok then wk.add {
-        { '<leader>g', group = '[G]o Harpoon' },
-    } end
+    if ok then wk.add { { '<leader>g', group = '[G]o Harpoon', icon = '🪨' } } end
+end
 
-    -- File management keymaps
-    vim.keymap.set('n', '<leader>ga', function() harpoon:list():add() end, { desc = '[Add] current file' })
+local function setup_file_keymaps(harpoon)
+    vim.keymap.set('n', '<leader>ga', function() harpoon:list():add() end, { desc = '[A]dd current file' })
+    vim.keymap.set('n', '<leader>gh', function() show_file_picker(harpoon:list()) end, { desc = '[S]how file list' })
+    vim.keymap.set('n', '<leader>gr', function() harpoon:list():remove() end, { desc = '[R]emove file' })
+    vim.keymap.set('n', '<leader>gc', function() harpoon:list():clear() end, { desc = '[C]lear list' })
+end
 
-    vim.keymap.set('n', '<leader>gh', function() create_telescope_picker(harpoon:list()) end, { desc = 'Show file list' })
-
-    vim.keymap.set('n', '<leader>gr', function() harpoon:list():remove() end, { desc = '[R]emove' })
-
-    vim.keymap.set('n', '<leader>gc', function() harpoon:list():clear() end, { desc = '[C]lear' })
-
-    -- Quick file navigation keymaps
-    local quick_nav_keys = {
-        { key = '<leader>g1', index = 1, desc = 'Go to file [1]' },
-        { key = '<leader>g2', index = 2, desc = 'Go to file [2]' },
-        { key = '<leader>g3', index = 3, desc = 'Go to file [3]' },
-        { key = '<leader>g4', index = 4, desc = 'Go to file [4]' },
-    }
-
-    for _, mapping in ipairs(quick_nav_keys) do
-        vim.keymap.set('n', mapping.key, function() harpoon:list():select(mapping.index) end, { desc = mapping.desc })
+local function setup_nav_keymaps(harpoon)
+    for i = 1, 4 do
+        vim.keymap.set('n', string.format('<leader>g%d', i), function() harpoon:list():select(i) end, { desc = string.format('Go to file [%d]', i) })
     end
 end
 
--- Main setup function
+local function setup_keymaps()
+    local harpoon = require 'harpoon'
+    register_which_key_group()
+    setup_file_keymaps(harpoon)
+    setup_nav_keymaps(harpoon)
+end
+
 function M.setup()
     local harpoon = require 'harpoon'
-
-    -- Initialize harpoon with default configuration
     harpoon:setup {}
-
-    -- Setup all key mappings
     setup_keymaps()
+    notify('Harpoon loaded', vim.log.levels.DEBUG)
 end
 
 return M
