@@ -53,6 +53,14 @@ return {
 
             palette = {
                 -- Override the builtin palette per variant
+                main = {
+                    base = '#0D0D0D',
+                    overlay = '#1A1A1A',
+                },
+                moon = {
+                    base = '#0D0D0D',
+                    overlay = '#1A1A1A',
+                },
                 -- moon = {
                 --     base = '#18191a',
                 --     overlay = '#363738',
@@ -82,9 +90,8 @@ return {
         }
 
         vim.cmd 'colorscheme rose-pine'
-        -- vim.cmd("colorscheme rose-pine-main")
-        -- vim.cmd("colorscheme rose-pine-moon")
-        -- vim.cmd("colorscheme rose-pine-dawn")
+        -- vim.cmd 'colorscheme rose-pine-main'
+        -- vim.cmd 'colorscheme rose-pine-moon'
+        -- vim.cmd 'colorscheme rose-pine-dawn'
     end,
 }
-
