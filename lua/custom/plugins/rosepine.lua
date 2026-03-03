@@ -74,6 +74,44 @@ return {
                 -- StatusLine = { fg = "love", bg = "love", blend = 15 },
                 -- VertSplit = { fg = "muted", bg = "muted" },
                 -- Visual = { fg = "base", bg = "text", inherit = false },
+                -- paksa Normal background
+                NormalFloat = { bg = 'base' },
+                FloatBorder = { fg = 'overlay', bg = 'base' },
+
+                -- Telescope
+                TelescopeSelection = { bg = 'overlay' },
+
+                -- Prompt/input area
+                TelescopePromptNormal = { bg = 'base' },
+                TelescopePromptBorder = { fg = 'muted', bg = 'base' },
+                TelescopePromptPrefix = { fg = 'iris' },
+
+                -- Titles
+                TelescopePromptTitle = { fg = 'base', bg = 'iris', bold = true },
+                TelescopePreviewTitle = { fg = 'base', bg = 'foam', bold = true },
+                TelescopeResultsTitle = { fg = 'base', bg = 'pine', bold = true },
+
+                -- Border semua panel pakai warna sama
+                TelescopeNormal = { bg = 'base' },
+                TelescopeBorder = { fg = 'muted', bg = 'base' },
+                TelescopePreviewNormal = { bg = 'base' },
+                TelescopePreviewBorder = { fg = 'muted', bg = 'base' },
+                TelescopeResultsNormal = { bg = 'base' },
+                TelescopeResultsBorder = { fg = 'muted', bg = 'base' },
+
+                -- Mason
+                MasonNormal = { bg = 'base' },
+                MasonHeader = { fg = 'base', bg = 'iris', bold = true },
+                MasonHeaderSecondary = { fg = 'base', bg = 'pine', bold = true },
+                MasonHighlight = { fg = 'foam' },
+                MasonHighlightBlock = { fg = 'base', bg = 'foam' },
+                MasonHighlightBlockBold = { fg = 'base', bg = 'foam', bold = true },
+                MasonHighlightSecondary = { fg = 'gold' },
+                MasonHighlightBlockSecondary = { fg = 'base', bg = 'gold' },
+                MasonHighlightBlockBoldSecondary = { fg = 'base', bg = 'gold', bold = true },
+                MasonMuted = { fg = 'muted' },
+                MasonMutedBlock = { fg = 'base', bg = 'muted' },
+                MasonMutedBlockBold = { fg = 'base', bg = 'muted', bold = true },
             },
 
             before_highlight = function(group, highlight, palette)
