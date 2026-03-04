@@ -56,7 +56,7 @@ function M.setup()
     local harpoon = require 'harpoon'
     harpoon:setup {}
     setup_keymaps()
-    notify('Harpoon loaded', vim.log.levels.DEBUG)
+    -- notify('Harpoon loaded', vim.log.levels.DEBUG)
 end
 
 return M

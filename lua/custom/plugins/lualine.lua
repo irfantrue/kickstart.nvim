@@ -6,7 +6,8 @@ return {
             bg = '#0D0D0D',
             fg = '#D8DEE9',
             muted = '#2A2A2A',
-            blue = '#81A1C1',
+            -- blue = '#81A1C1',
+            blue = '#31748f',
             green = '#A3BE8C',
             yellow = '#EBCB8B',
             red = '#BF616A',
@@ -104,7 +105,7 @@ return {
                     {
                         'branch',
                         icon = '',
-                        color = { fg = colors.cyan, gui = 'bold' },
+                        color = { fg = colors.blue, gui = 'bold' },
                     },
                     {
                         'diff',
