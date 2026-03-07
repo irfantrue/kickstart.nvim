@@ -1,17 +1,11 @@
 local M = {}
 
---- Show notification with Harpoon branding
----@param message string
----@param level vim.log.level|nil
-local function notify(message, level) vim.notify(message, level or vim.log.levels.INFO, { title = 'Harpoon' }) end
-
 --- Create Telescope picker for harpooned files
----@param harpoon_files HarpoonList
-local function show_file_picker(harpoon_files)
-    local items = harpoon_files.items
+local function show_file_picker(harpoon_list)
+    local items = harpoon_list.items
 
     if #items == 0 then
-        notify('No files harpooned yet!', vim.log.levels.WARN)
+        vim.notify('No files harpooned yet!', vim.log.levels.WARN, { title = 'Harpoon' })
         return
     end
 
@@ -27,36 +21,37 @@ local function show_file_picker(harpoon_files)
         :find()
 end
 
-local function register_which_key_group()
+local function register_which_key_group(harpoon)
     local ok, wk = pcall(require, 'which-key')
-    if ok then wk.add { { '<leader>g', group = '[G]o Harpoon', icon = '🪨' } } end
-end
-
-local function setup_file_keymaps(harpoon)
-    vim.keymap.set('n', '<leader>ga', function() harpoon:list():add() end, { desc = '[A]dd current file' })
-    vim.keymap.set('n', '<leader>gh', function() show_file_picker(harpoon:list()) end, { desc = '[S]how file list' })
-    vim.keymap.set('n', '<leader>gr', function() harpoon:list():remove() end, { desc = '[R]emove file' })
-    vim.keymap.set('n', '<leader>gc', function() harpoon:list():clear() end, { desc = '[C]lear list' })
-end
-
-local function setup_nav_keymaps(harpoon)
-    for i = 1, 4 do
-        vim.keymap.set('n', string.format('<leader>g%d', i), function() harpoon:list():select(i) end, { desc = string.format('Go to file [%d]', i) })
+    if not ok then
+        -- Fallback: register keymaps without which-key
+        vim.keymap.set('n', '<leader>ma', function() harpoon:list():add() end, { desc = '[A]dd current file' })
+        vim.keymap.set('n', '<leader>ml', function() show_file_picker(harpoon:list()) end, { desc = 'Show [l]ist' })
+        vim.keymap.set('n', '<leader>mr', function() harpoon:list():remove() end, { desc = '[R]emove file' })
+        vim.keymap.set('n', '<leader>mc', function() harpoon:list():clear() end, { desc = '[C]lear list' })
+        for i = 1, 4 do
+            vim.keymap.set('n', string.format('<leader>m%d', i), function() harpoon:list():select(i) end, { desc = string.format('Go to file [%d]', i) })
+        end
+        return
     end
-end
 
-local function setup_keymaps()
-    local harpoon = require 'harpoon'
-    register_which_key_group()
-    setup_file_keymaps(harpoon)
-    setup_nav_keymaps(harpoon)
+    wk.add {
+        { '<leader>m', group = '[M]arks (Harpoon)', icon = '🪝' },
+        { '<leader>ma', function() harpoon:list():add() end, desc = '[A]dd current file' },
+        { '<leader>ml', function() show_file_picker(harpoon:list()) end, desc = 'Show [l]ist' },
+        { '<leader>mr', function() harpoon:list():remove() end, desc = '[R]emove file' },
+        { '<leader>mc', function() harpoon:list():clear() end, desc = '[C]lear list' },
+        { '<leader>m1', function() harpoon:list():select(1) end, desc = 'Go to file [1]' },
+        { '<leader>m2', function() harpoon:list():select(2) end, desc = 'Go to file [2]' },
+        { '<leader>m3', function() harpoon:list():select(3) end, desc = 'Go to file [3]' },
+        { '<leader>m4', function() harpoon:list():select(4) end, desc = 'Go to file [4]' },
+    }
 end
 
 function M.setup()
     local harpoon = require 'harpoon'
     harpoon:setup {}
-    setup_keymaps()
-    -- notify('Harpoon loaded', vim.log.levels.DEBUG)
+    register_which_key_group(harpoon)
 end
 
 return M
