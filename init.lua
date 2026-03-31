@@ -615,6 +615,7 @@ require('lazy').setup({
             local servers = {
                 -- clangd = {},
                 gopls = require 'config.lsp.gopls',
+                pylsp = require 'config.lsp.pylsp',
                 -- pyright = {},
                 -- rust_analyzer = {},
                 --

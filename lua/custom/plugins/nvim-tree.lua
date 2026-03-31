@@ -1,3 +1,5 @@
+-- Nvim-tree: File explorer sidebar
+-- Replaces netrw with a modern file browser
 return {
     'nvim-tree/nvim-tree.lua',
     version = '*',
@@ -7,7 +9,7 @@ return {
     },
     config = function()
         require('nvim-tree').setup {
-            -- Basic settings
+            -- Display settings
             sort_by = 'case_sensitive',
             view = {
                 width = 30,
@@ -28,31 +30,32 @@ return {
                     },
                 },
             },
+            -- File filtering
             filters = {
                 dotfiles = false,
                 git_ignored = false,
             },
-            -- Disable netrw
+            -- Netrw replacement
             disable_netrw = true,
             hijack_netrw = true,
-            -- Git integration
+            -- Git status (400ms timeout)
             git = {
                 enable = true,
                 ignore = true,
                 timeout = 400,
             },
-            -- Actions
+            -- File actions
             actions = {
                 open_file = {
                     quit_on_open = false,
                 },
             },
-            -- Live filtering
+            -- Live filter prefix
             live_filter = {
                 prefix = '[FILTER]: ',
                 always_show_folders = true,
             },
-            -- Tab settings for preview
+            -- Sync with current tab
             tab = {
                 sync = {
                     open = true,
@@ -61,7 +64,7 @@ return {
             },
         }
 
-        -- Keymaps
+        -- Toggle with <leader><Tab>
         vim.keymap.set('n', '<leader><Tab>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
     end,
 }

@@ -1,3 +1,5 @@
+-- Typescript-tools.nvim: TypeScript LSP integration
+-- Single tsserver instance per project (better performance than lspconfig)
 return {
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },

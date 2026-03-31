@@ -1,3 +1,5 @@
+-- Harpoon: Fast file navigation with a mark list
+-- Branch 'harpoon2' is the v2 rewrite
 return {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',

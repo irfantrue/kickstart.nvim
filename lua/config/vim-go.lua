@@ -1,5 +1,9 @@
 local M = {}
 
+--- Prompts user for input and executes a Go command
+--- Used for commands that accept optional arguments (e.g., GoAddTags)
+---@param cmd string The Vim command to execute
+---@param prompt string The prompt to display
 local function go_ui_input(cmd, prompt)
     vim.ui.input({ prompt = prompt }, function(input)
         if input then vim.cmd(cmd .. ' ' .. input) end
@@ -54,8 +58,11 @@ local function register_which_key_group()
     }
 end
 
+--- Setup Go buffer-local keymaps for vim-go commands
 function M.setup() setup_buffer_keymaps() end
 
+--- Register which-key groups for Go commands
+--- Called separately after plugin loading
 function M.setup_keymaps() register_which_key_group() end
 
 return M

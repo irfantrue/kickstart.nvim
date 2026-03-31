@@ -1,3 +1,6 @@
+-- Vim-go: Go development plugin
+-- Provides build/run/test commands and syntax highlighting
+-- LSP features handled by nvim-lspconfig/gopls
 return {
     'fatih/vim-go',
     ft = { 'go', 'gomod', 'gowork', 'gotmpl' },

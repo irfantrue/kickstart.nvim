@@ -1,12 +1,14 @@
+-- Lualine: Status line with custom Rose Pine theme
+-- Overrides default colors to match custom palette
 return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
+        -- Custom color palette matching rose-pine variant
         local colors = {
             bg = '#0D0D0D',
             fg = '#D8DEE9',
             muted = '#2A2A2A',
-            -- blue = '#81A1C1',
             blue = '#31748f',
             green = '#A3BE8C',
             yellow = '#EBCB8B',
@@ -16,19 +18,21 @@ return {
             purple = '#B48EAD',
         }
 
-        local mode_colors = {
-            n = colors.blue,
-            i = colors.green,
-            v = colors.purple,
-            V = colors.purple,
-            ['\22'] = colors.purple,
-            c = colors.yellow,
-            R = colors.red,
-            t = colors.cyan,
-            s = colors.orange,
-            S = colors.orange,
-        }
+        -- Mode-specific colors for mode indicator (unused, kept for reference)
+        -- local mode_colors = {
+        --     n = colors.blue,
+        --     i = colors.green,
+        --     v = colors.purple,
+        --     V = colors.purple,
+        --     ['\22'] = colors.purple,
+        --     c = colors.yellow,
+        --     R = colors.red,
+        --     t = colors.cyan,
+        --     s = colors.orange,
+        --     S = colors.orange,
+        -- }
 
+        -- Short mode names for compact display
         local mode_names = {
             ['NORMAL'] = 'N',
             ['INSERT'] = 'I',
@@ -42,7 +46,7 @@ return {
             ['EX'] = 'X',
         }
 
-        -- Theme custom biar match sama rose-pine yang di-override
+        -- Custom theme matching rose-pine colors
         local custom_theme = {
             normal = {
                 a = { fg = colors.bg, bg = colors.blue, gui = 'bold' },
@@ -86,14 +90,15 @@ return {
                 theme = custom_theme,
                 component_separators = { left = '', right = '' },
                 section_separators = { left = '', right = '' },
-                globalstatus = true, -- satu statusline untuk semua window
+                globalstatus = true, -- Single statusline for all windows
                 always_divide_middle = true,
                 always_show_tabline = true,
                 refresh = {
-                    statusline = 100, -- lebih responsive
+                    statusline = 100, -- Refresh rate in ms
                 },
             },
             sections = {
+                -- Left side: mode, git branch, filename
                 lualine_a = {
                     {
                         'mode',
@@ -120,7 +125,7 @@ return {
                 lualine_c = {
                     {
                         'filename',
-                        path = 1, -- relative path, lebih clean dari path = 4
+                        path = 1, -- Relative path
                         symbols = {
                             modified = '  ',
                             readonly = '  ',
@@ -130,6 +135,7 @@ return {
                         color = { fg = colors.fg },
                     },
                 },
+                -- Right side: diagnostics, filetype, position
                 lualine_x = {
                     {
                         'diagnostics',

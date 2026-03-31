@@ -1,2 +1,7 @@
-vim.opt.guicursor = 'n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor20'
-
+-- Cursor shape configuration
+-- Format: mode:shape
+-- n-v-c: Normal/Visual/Command-line = block
+-- i-ci-ve: Insert/Command Insert/Visual Select = block
+-- r-cr: Replace/Command Replace = 20% horizontal bar
+-- o: Operator-pending = 20% horizontal bar
+-- vim.opt.guicursor = 'n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor20'

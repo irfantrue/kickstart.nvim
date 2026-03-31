@@ -1,3 +1,5 @@
+-- Rose Pine theme with custom palette overrides
+-- Custom colors for Telescope, Mason, and floating windows
 return {
     'rose-pine/neovim',
     name = 'rose-pine',
@@ -5,7 +7,6 @@ return {
         require('rose-pine').setup {
             variant = 'auto', -- auto, main, moon, or dawn
             dark_variant = 'main', -- main, moon, or dawn
-            dim_inactive_windows = false,
             extend_background_behind_borders = true,
 
             enable = {
@@ -20,6 +21,7 @@ return {
                 transparency = false,
             },
 
+            -- Semantic color mappings
             groups = {
                 border = 'muted',
                 link = 'iris',
@@ -51,8 +53,8 @@ return {
                 h6 = 'foam',
             },
 
+            -- Custom base colors for all variants
             palette = {
-                -- Override the builtin palette per variant
                 main = {
                     base = '#0D0D0D',
                     overlay = '#1A1A1A',
@@ -61,37 +63,22 @@ return {
                     base = '#0D0D0D',
                     overlay = '#1A1A1A',
                 },
-                -- moon = {
-                --     base = '#18191a',
-                --     overlay = '#363738',
-                -- },
             },
 
-            -- NOTE: Highlight groups are extended (merged) by default. Disable this
-            -- per group via `inherit = false`
+            -- Override specific highlight groups
             highlight_groups = {
-                -- Comment = { fg = "foam" },
-                -- StatusLine = { fg = "love", bg = "love", blend = 15 },
-                -- VertSplit = { fg = "muted", bg = "muted" },
-                -- Visual = { fg = "base", bg = "text", inherit = false },
-                -- paksa Normal background
+                -- Floating windows
                 NormalFloat = { bg = 'base' },
                 FloatBorder = { fg = 'overlay', bg = 'base' },
 
                 -- Telescope
                 TelescopeSelection = { bg = 'overlay' },
-
-                -- Prompt/input area
                 TelescopePromptNormal = { bg = 'base' },
                 TelescopePromptBorder = { fg = 'muted', bg = 'base' },
                 TelescopePromptPrefix = { fg = 'iris' },
-
-                -- Titles
                 TelescopePromptTitle = { fg = 'base', bg = 'iris', bold = true },
                 TelescopePreviewTitle = { fg = 'base', bg = 'foam', bold = true },
                 TelescopeResultsTitle = { fg = 'base', bg = 'pine', bold = true },
-
-                -- Border semua panel pakai warna sama
                 TelescopeNormal = { bg = 'base' },
                 TelescopeBorder = { fg = 'muted', bg = 'base' },
                 TelescopePreviewNormal = { bg = 'base' },
@@ -119,17 +106,9 @@ return {
                 -- if highlight.undercurl then
                 --     highlight.undercurl = false
                 -- end
-                --
-                -- Change palette colour
-                -- if highlight.fg == palette.pine then
-                --     highlight.fg = palette.foam
-                -- end
             end,
         }
 
         vim.cmd 'colorscheme rose-pine'
-        -- vim.cmd 'colorscheme rose-pine-main'
-        -- vim.cmd 'colorscheme rose-pine-moon'
-        -- vim.cmd 'colorscheme rose-pine-dawn'
     end,
 }
