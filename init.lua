@@ -615,7 +615,8 @@ require('lazy').setup({
             local servers = {
                 -- clangd = {},
                 gopls = require 'config.lsp.gopls',
-                pylsp = require 'config.lsp.pylsp',
+                basedpyright = require 'config.lsp.basedpyright',
+                -- pylsp = require 'config.lsp.pylsp',  -- Alternative: python-lsp-server
                 -- pyright = {},
                 -- rust_analyzer = {},
                 --
@@ -679,7 +680,8 @@ require('lazy').setup({
                 'gopls', -- Go
                 'rust_analyzer', -- Rust
                 'zls', -- Zig
-                'pylsp', -- Python
+                'basedpyright', -- Python (type checker + LSP)
+                -- 'pylsp', -- Alternative Python LSP
             })
 
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
