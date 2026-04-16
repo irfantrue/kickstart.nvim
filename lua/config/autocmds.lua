@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Detect .conf files and domain-like config files (e.g., api.example.com, nginx.conf)
-vim.filetype.add({
+vim.filetype.add {
     extension = {
         conf = function(path, bufnr)
             -- Try to detect nginx config by content
@@ -29,9 +29,7 @@ vim.filetype.add({
             local nginx_keywords = { 'server', 'location', 'upstream', 'listen', 'proxy_pass' }
             for _, line in ipairs(content) do
                 for _, kw in ipairs(nginx_keywords) do
-                    if line:match('^%s*' .. kw) then
-                        return 'nginx'
-                    end
+                    if line:match('^%s*' .. kw) then return 'nginx' end
                 end
             end
             -- Default to dosini for better key=value highlighting
@@ -49,9 +47,7 @@ vim.filetype.add({
             local nginx_keywords = { 'server', 'location', 'upstream', 'listen', 'proxy_pass', 'root' }
             for _, line in ipairs(content) do
                 for _, kw in ipairs(nginx_keywords) do
-                    if line:match('^%s*' .. kw .. '%s') or line:match('^%s*' .. kw .. '%s*{') then
-                        return 'nginx'
-                    end
+                    if line:match('^%s*' .. kw .. '%s') or line:match('^%s*' .. kw .. '%s*{') then return 'nginx' end
                 end
             end
             return 'dosini'
@@ -64,4 +60,4 @@ vim.filetype.add({
         ['.*/httpd/.*%.conf$'] = 'apache',
         ['.*/httpd/conf%.d/.*'] = 'apache',
     },
-})
+}
