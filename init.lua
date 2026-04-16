@@ -320,15 +320,15 @@ require('lazy').setup({
             delay = 0,
             icons = { mappings = vim.g.have_nerd_font },
 
-      -- Document existing key chains
-      spec = {
-        { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
-        { 'gr', group = 'LSP Actions', mode = { 'n' } },
-      },
+            -- Document existing key chains
+            spec = {
+                { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
+                { '<leader>t', group = '[T]oggle' },
+                { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
+                { 'gr', group = 'LSP Actions', mode = { 'n' } },
+            },
+        },
     },
-  },
 
     -- NOTE: Plugins can specify dependencies.
     --
@@ -630,6 +630,24 @@ require('lazy').setup({
 
                 solidity = require 'config.lsp.soliditys',
 
+                oxlint = {
+                    settings = { fixKind = 'all' },
+                    on_attach = function(client, bufnr)
+                        vim.api.nvim_buf_create_user_command(
+                            bufnr,
+                            'LspOxlintFixAll',
+                            function()
+                                client:exec_cmd {
+                                    title = 'Apply Oxlint automatic fixes',
+                                    command = 'oxc.fixAll',
+                                    arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
+                                }
+                            end,
+                            { desc = 'Apply Oxlint automatic fixes' }
+                        )
+                    end,
+                },
+
                 -- Special Lua Config, as recommended by neovim help docs
                 lua_ls = {
                     on_init = function(client)
@@ -726,17 +744,17 @@ require('lazy').setup({
             formatters_by_ft = {
                 lua = { 'stylua' },
                 -- Conform can also run multiple formatters sequentially
-                python = { "isort", "black" },
+                python = { 'isort', 'black' },
                 --
                 -- You can use 'stop_after_first' to run the first available formatter from the list
                 -- javascript = { "prettierd", "prettier", stop_after_first = true },
-                javascript = { 'biome-check' },
-                typescript = { 'biome-check' },
-                javascriptreact = { 'biome-check' },
-                typescriptreact = { 'biome-check' },
-                json = { 'biome-check' },
-                jsonc = { 'biome-check' },
-                graphql = { 'biome-check' },
+                javascript = { 'biome-check', 'oxfmt' },
+                typescript = { 'biome-check', 'oxfmt' },
+                javascriptreact = { 'biome-check', 'oxfmt' },
+                typescriptreact = { 'biome-check', 'oxfmt' },
+                json = { 'biome-check', 'oxfmt' },
+                jsonc = { 'biome-check', 'oxfmt' },
+                graphql = { 'biome-check', 'oxfmt' },
                 sql = { 'pg_format_custom' },
                 solidity = { 'forge_fmt' },
             },
