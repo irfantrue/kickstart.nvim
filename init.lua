@@ -678,6 +678,13 @@ require('lazy').setup({
                         Lua = {},
                     },
                 },
+                yamlls = {
+                    on_attach = function(client, bufnr) client.server_capabilities.documentFormattingProvider = true end,
+                    settings = {
+                        format = { enable = true, singleQuote = false, bracketSpacing = true },
+                        schemaStore = { enable = true },
+                    },
+                },
             }
 
             -- Ensure the servers and tools above are installed
