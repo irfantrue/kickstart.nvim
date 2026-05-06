@@ -16,14 +16,16 @@ return {
             include_completions_with_insert_text = true,
 
             -- Code lens (shows impl count, references above functions)
-            code_lens = 'off', -- or 'all' | 'implementations_only' | 'references_only'
+            code_lens = 'references_only', -- or 'all' | 'implementations_only' | 'references_only'
+
+            tsserver_path = 'node_modules/typescript/lib/tsserver.js',
 
             -- Inlay hints (requires Neovim 0.10+)
             tsserver_plugins = {},
             tsserver_file_preferences = {
-                includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all'
+                includeInlayParameterNameHints = 'literals', -- 'none' | 'literals' | 'all'
                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
+                includeInlayFunctionParameterTypeHints = false,
                 includeInlayVariableTypeHints = true,
                 includeInlayVariableTypeHintsWhenTypeMatchesName = false,
                 includeInlayPropertyDeclarationTypeHints = true,
@@ -33,10 +35,7 @@ return {
             },
 
             -- Formatting — delegate to prettier/eslint instead if you use those
-            tsserver_format_options = {
-                allowIncompleteCompletions = false,
-                allowRenameOfImportPath = false,
-            },
+            tsserver_format_options = {},
 
             -- Expose organise imports, add missing imports, fix all, etc.
             expose_as_code_action = {
