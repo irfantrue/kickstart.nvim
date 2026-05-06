@@ -16,7 +16,7 @@ return {
             include_completions_with_insert_text = true,
 
             -- Code lens (shows impl count, references above functions)
-            code_lens = 'references_only', -- or 'all' | 'implementations_only' | 'references_only'
+            code_lens = 'off', -- or 'all' | 'implementations_only' | 'references_only'
 
             tsserver_path = 'node_modules/typescript/lib/tsserver.js',
 
