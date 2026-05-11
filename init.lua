@@ -613,9 +613,11 @@ require('lazy').setup({
             --  See `:help lsp-config` for information about keys and how to configure
             ---@type table<string, vim.lsp.Config>
             local servers = {
-                -- clangd = {},
                 gopls = require 'config.lsp.gopls',
                 basedpyright = require 'config.lsp.basedpyright',
+                solidity = require 'config.lsp.soliditys',
+                oxlint = require 'config.lsp.oxlint',
+                -- clangd = {},
                 -- pylsp = require 'config.lsp.pylsp',  -- Alternative: python-lsp-server
                 -- pyright = {},
                 -- rust_analyzer = {},
@@ -627,26 +629,6 @@ require('lazy').setup({
                 -- ts_ls = {},
 
                 stylua = {}, -- Used to format Lua code
-
-                solidity = require 'config.lsp.soliditys',
-
-                oxlint = {
-                    settings = { fixKind = 'all' },
-                    on_attach = function(client, bufnr)
-                        vim.api.nvim_buf_create_user_command(
-                            bufnr,
-                            'LspOxlintFixAll',
-                            function()
-                                client:exec_cmd {
-                                    title = 'Apply Oxlint automatic fixes',
-                                    command = 'oxc.fixAll',
-                                    arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
-                                }
-                            end,
-                            { desc = 'Apply Oxlint automatic fixes' }
-                        )
-                    end,
-                },
 
                 -- Special Lua Config, as recommended by neovim help docs
                 lua_ls = {
